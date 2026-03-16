@@ -1,0 +1,153 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+env:
+  APP_NAME: rkn-cocat
+  MAIN_PACKAGE: ./cmd/rkn-cocat
+
+jobs:
+  prepare:
+    name: Prepare release metadata
+    runs-on: ubuntu-latest
+    outputs:
+      release_tag: ${{ steps.meta.outputs.release_tag }}
+      release_name: ${{ steps.meta.outputs.release_name }}
+    steps:
+      - id: meta
+        name: Compute release tag
+        shell: bash
+        run: |
+          short_sha="${GITHUB_SHA::12}"
+          echo "release_tag=main-${short_sha}" >> "$GITHUB_OUTPUT"
+          echo "release_name=main-${short_sha}" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            archive: tar.gz
+          - goos: linux
+            goarch: arm64
+            archive: tar.gz
+          - goos: windows
+            goarch: amd64
+            archive: zip
+          - goos: windows
+            goarch: arm64
+            archive: zip
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Build packaged archive
+        shell: bash
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          archive_base="${APP_NAME}_${GOOS}_${GOARCH}"
+          binary_name="${APP_NAME}"
+          if [ "$GOOS" = "windows" ]; then
+            binary_name="${binary_name}.exe"
+          fi
+
+          stage_root="dist/stage/${archive_base}"
+          mkdir -p "$stage_root"
+
+          cp -R configs "$stage_root/"
+          cp README.md "$stage_root/"
+
+          go build -trimpath -buildvcs=false -o "${stage_root}/${binary_name}" "${MAIN_PACKAGE}"
+
+          if [ "${{ matrix.archive }}" = "zip" ]; then
+            (
+              cd dist/stage
+              zip -r "../${archive_base}.zip" "${archive_base}"
+            )
+          else
+            tar -C dist/stage -czf "dist/${archive_base}.tar.gz" "${archive_base}"
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: dist/${{ env.APP_NAME }}_${{ matrix.goos }}_${{ matrix.goarch }}.*
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub release
+    needs:
+      - prepare
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets/raw
+
+      - name: Collect release assets
+        shell: bash
+        run: |
+          mkdir -p release-assets/flat
+
+          while IFS= read -r -d '' file; do
+            cp "$file" "release-assets/flat/$(basename "$file")"
+          done < <(find release-assets/raw -type f -print0 | sort -z)
+
+          if ! find release-assets/flat -maxdepth 1 -type f | grep -q .; then
+            echo "No build artifacts were collected" >&2
+            exit 1
+          fi
+
+          (
+            cd release-assets/flat
+            sha256sum * > SHA256SUMS.txt
+          )
+
+      - name: Create or update release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.prepare.outputs.release_tag }}
+          RELEASE_NAME: ${{ needs.prepare.outputs.release_name }}
+        run: |
+          notes_file="$(mktemp)"
+          cat > "$notes_file" <<EOF
+          Automated release for commit ${GITHUB_SHA} from branch ${GITHUB_REF_NAME}.
+
+          Commit: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}
+          Workflow: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          EOF
+
+          if ! gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "$RELEASE_NAME" \
+              --notes-file "$notes_file"
+          fi
+
+          mapfile -d '' assets < <(find release-assets/flat -maxdepth 1 -type f -print0 | sort -z)
+          gh release upload "$RELEASE_TAG" "${assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
