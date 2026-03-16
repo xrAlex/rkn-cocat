@@ -1,0 +1,113 @@
+# Size sweep.
+
+- provider: 'hetzner'
+  ip: '65.21.217.155'
+  resource: 'https://doboard.com/tinymce/tinymce.min.js'
+
+- provider: 'cdn77'
+  ip: '195.181.166.158'
+  resource: 'https://european-tech.com/shots_sm/hetzner.jpg'
+
+- provider: 'constant'
+  ip: '140.82.39.92'
+  resource: 'https://static-cdn.play.date/static/images/footer.c1b8013f1eb3.png'
+
+- provider: 'ovh'
+  ip: '137.74.4.57'
+  resource: 'https://minewiki.pl/images/5/54/EnvCSS.png'
+
+- provider: 'ovh'
+  ip: '94.23.144.183'
+  resource: 'https://liquipedia.net/commons/images/thumb/4/4f/Conquer_Gaming_2019_allmode.png/600px-Conquer_Gaming_2019_allmode.png'
+
+- provider: 'melbicom'
+  ip: '185.131.64.122'
+  resource: 'https://bunny.net/lib/fontawesome/webfonts/fa-solid-900.woff2'
+
+- provider: 'fastly'
+  ip: '151.101.65.229'
+  resource: 'https://cdn.jsdelivr.net/npm/apexcharts'
+
+- provider: 'oracle'
+  ip: '69.6.235.52'
+  resource: 'https://plataforma.trackerintl.com/images/background.jpg'
+
+- provider: 'digitalocean'
+  ip: '178.62.84.203'
+  resource: 'https://www.linuxserver.io/user/themes/linuxserver/fonts/Inter-roman.var.woff2?v=3.19'
+
+- provider: 'digitalocean'
+  ip: '143.198.19.147'
+  resource: 'https://carishealthcare.com/content/uploads/2025/04/Caris-Logo.svg'
+
+- provider: 'vercel'
+  ip: '216.150.16.1'
+  resource: 'https://hubspotonwebflow.com/assets/js/blockedDomains.json'
+
+- provider: 'akamai'
+  ip: '2.19.183.143'
+  resource: 'https://cdn.livechatinc.com/tracking.js'
+
+- provider: 'aws'
+  ip: '3.174.113.81'
+  resource: 'https://s2.dmcdn.net/1/ZzIao1fakdsaRTKky/1280x720f'
+
+- provider: 'aws'
+  ip: '18.165.140.109'
+  resource: 'https://static1.dmcdn.net/ABCFavorit-Regular.woff2'
+
+- provider: 'aws'
+  ip: '3.174.113.79'
+  resource: 'https://js.stripe.com/v3/?ver=v3'
+
+- provider: 'aws'
+  ip: '151.101.128.237'
+  resource: 'https://assets.squarespace.com/@sqs/polyfiller/1.6/modern.js'
+
+- provider: 'aws'
+  ip: '13.33.235.79'
+  resource: 'https://cdn.trustindex.io/loader.js?ver=1'
+
+- provider: 'cloudflare'
+  ip: '162.159.138.232'
+  resource: 'https://discord.com/w/assets/latest/495.js'
+
+- provider: 'cloudflare'
+  ip: '8.6.112.0'
+  resource: 'https://cdn.localizeapi.com/localize.js'
+
+- provider: 'cloudflare'
+  ip: '104.18.86.42'
+  resource: 'https://cdn.cookielaw.org/scripttemplates/202601.2.0/otBannerSdk.js'
+
+- provider: 'fastly'
+  ip: '151.101.1.55'
+  resource: 'https://ucarecdn.com/2269d0be-6062-449a-845c-35d231f64859/uploaderbackground.webp'
+
+- provider: 'cloudflare'
+  ip: '8.6.112.6'
+  resource: 'https://www.onetrust.com/content/dam/onetrust/brand/content/graphic/spot-graphic/OT-spot-graphic-cookie-consent-audit.svg'
+
+- provider: 'cloudflare'
+  ip: '172.66.165.15'
+  resource: 'https://cdn-widget.callpage.io/build/js/callpage.js'
+
+- provider: 'cloudflare'
+  ip: '172.67.143.221'
+  resource: 'https://www.holidify.com/res/images/loading.gif '
+
+- provider: 'fastly'
+  ip: '151.101.2.114'
+  resource: 'https://hawk.gamesradar.com/js/w/es6/master-64beb7f8/promotion.js'
+
+- provider: 'aws'
+  ip: '3.174.113.23'
+  resource: 'https://cdn.privacy-mgmt.com/unified/wrapperMessagingWithoutDetection.js'
+
+- provider: 'cdn77'
+  ip: '121.127.45.90'
+  resource: 'https://thumb-cdn77.xvideos-cdn.com/65562809-819d-46ac-bc41-a7f12f1db5ab/0/xv_26_t.jpg'
+
+- provider: 'hetzner'
+  ip: '91.98.227.48'
+  resource: 'https://livingcost.org/assets/photo/best/united-states.jpg?26'

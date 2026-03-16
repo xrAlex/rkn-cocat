@@ -1,0 +1,117 @@
+# Использовать только IPv4 при сетевых dial/lookup. [default: true]
+use_ipv4_only: true
+
+# Максимум параллельных сетевых операций (должен быть > 0). [default: 70]
+max_concurrent: 70
+
+# Таймаут TLS/HTTP проверок доменов, в секундах (> 0). [default: 7]
+timeout_sec: 7
+
+# Таймаут для TCP 16-20KB проверки, в секундах (> 0). [default: 12]
+timeout_tcp_1620_sec: 12
+
+# Количество повторов TLS/HTTP проверки домена (>= 1). [default: 3]
+domain_check_retries: 3
+
+# Количество повторов TCP 16-20KB проверки (>= 1). [default: 1]
+tcp_1620_check_retries: 2
+
+# Порог процента "смешанных результатов", после которого ставится MIXED RESULTS. [default: 10]
+dpi_variance_thresh: 10
+
+# Диапазон (KB), в котором обрыв считается признаком TCP16-20 блокировки. [default: 16..20]
+# Ограничения: min > 0, max >= min.
+tcp_block_min_kb: 16
+tcp_block_max_kb: 20
+
+# Максимум байт тела HTTP-ответа для анализа маркеров блок-страницы. [default: 8192]
+body_inspect_limit: 8192
+
+# Порог "устойчивого чтения" в байтах для TCP 16-20 теста.
+# Если достигнут, цель считается условно доступной. [default: 24576]
+data_read_threshold: 24576
+
+# User-Agent для HTTP(S) запросов. [default: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 YaBrowser/21.3.3.230 Yowser/2.5 Safari/537.36]
+user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.105 YaBrowser/21.3.3.230 Yowser/2.5 Safari/537.36 '
+
+# Сколько доменов брать в TLS differential SNI тест (0 = проверить все домены из файла). [default: 0]
+sni_diff_probe_domains: 0
+
+# Сколько доменов брать в DNS EDE diagnostics (0 = взять все домены из файла). [default: 0]
+dns_ede_probe_domains: 0
+
+# Сколько доменов брать в DNS transport matrix (0 = взять все домены из файла). [default: 0]
+dns_transport_domains: 0
+
+# Сколько целей брать в size sweep (0 = взять все цели из файла). [default: 0]
+sweep_probe_targets: 0
+
+# Диапазон (KB) для size sweep. [default: 8..40, min > 0, max >= min]
+sweep_min_kb: 8
+sweep_max_kb: 40
+
+# OONI blocking check.
+# Код страны probe, например RU/US. [default: RU]
+ooni_probe_cc: 'RU'
+# Искать измерения начиная с N дней назад. [default: 180]
+ooni_since_days: 180
+# Максимум параллельных запросов к API OONI. [default: 10]
+ooni_concurrency: 2
+# Таймаут HTTP-запроса к API OONI, сек. [default: 25]
+ooni_timeout_sec: 10
+# Базовый URL API OONI. [default: https://api.ooni.io/api/v1]
+ooni_base_url: 'https://api.ooni.io/api/v1'
+# User-Agent для HTTP-запросов к API OONI. [default: rkn-cocat/ooni-1.0]
+ooni_user_agent: 'rkn-cocat/ooni-1.0'
+# TCP порты для fallback tcp_connect проверки (по порядку). [default: 443,80]
+ooni_tcp_ports:
+  - 443
+  - 80
+
+# Таймаут DNS/DoH/DoT запроса, в секундах. [default: 3, >0]
+dns_check_timeout: 3
+
+# Опциональный список IP, которые считаются DNS-заглушками/блок-страницами.
+dns_block_ips:
+  - '10.10.10.10'
+  - '0.0.0.0'
+  - '127.0.0.1'
+
+# Пути к файлам данных тестов.
+# Относительные пути считаются от директории этого config.yaml.
+files:
+  # Общий доменный набор для всех доменных тестов.
+  domains: 'tests/domains.yaml'
+  # IP-наборы для OONI IP targets.
+  ips: 'tests/ips.yaml'
+  # DNS резолверы/транспорты для DNS EDE и DNS matrix.
+  dns: 'tests/dns.yaml'
+  # Цели CDN/HTTP для size sweep.
+  cdn: 'tests/cdn.yaml'
+
+# Маркеры в URL/заголовках/редиректах, указывающие на возможную блокировку.
+block_markers:
+  - 'lawfilter'
+  - 'warning.rt.ru'
+  - 'blocked'
+  - 'access-denied'
+  - 'eais'
+  - 'zapret-info'
+  - 'rkn.gov.ru'
+  - 'mvd.ru'
+
+# Маркеры в теле HTML-страницы, указывающие на блок-страницу провайдера.
+body_block_markers:
+  - 'blocked'
+  - 'заблокирован'
+  - 'запрещён'
+  - 'запрещен'
+  - 'ограничен'
+  - 'единый реестр'
+  - 'роскомнадзор'
+  - 'rkn.gov.ru'
+  - 'nap.gov.ru'
+  - 'eais.rkn.gov.ru'
+  - 'warning.rt.ru'
+  - 'blocklist'
+  - 'решению суда'

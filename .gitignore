@@ -1,0 +1,6 @@
+.gocache/
+.agents/
+*.exe
+*.test
+*.out
+
