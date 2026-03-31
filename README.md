@@ -1,8 +1,25 @@
+<p align="center">
+  <img src=".assets/logo.png" alt="RKN COCAT logo" width="220">
+</p>
+
 # ✨ RKN COCAT
 
 Roskomnadzor Censorship Observation, Check & Analysis Tool
 
 Программа для определения способа блокировки ресурса Роскомнадзором
+
+<details>
+  <summary><strong>Скриншоты</strong></summary>
+  <br>
+  <img src=".assets/start.png" alt="Стартовый экран RKN COCAT" width="900">
+  <br><br>
+  <img src=".assets/result.png" alt="Результаты проверки в RKN COCAT" width="900">
+  <br><br>
+  <img src=".assets/sni.png" alt="Проверка TLS differential SNI в RKN COCAT" width="900">
+  <br><br>
+  <img src=".assets/sweep.png" alt="Проверка Size sweep в RKN COCAT" width="900">
+
+</details>
 
 ---
 
@@ -29,7 +46,9 @@ Roskomnadzor Censorship Observation, Check & Analysis Tool
 
 #### Проверка TLS 1.3 и TLS 1.2
 
-> Представьте двух шпионов: диалог начинается через секретное рукопожатие. В случае с TLS 1.2 вам протягивают руку, а в случае с TLS 1.3 кладут в руку что-то длинное, тёплое и фаллообразное.Что то тут не так
+> Представьте двух шпионов: диалог начинается через секретное рукопожатие.
+> В случае с TLS 1.2 вам протягивают руку, а в случае с TLS 1.3 кладут в руку что-то длинное, тёплое и фаллообразное.
+> Что то тут не так
 
 #### Тест HTTP injection
 
